@@ -1,0 +1,8 @@
+#+TITLE: An introduction to programming in Emacs Lisp
+#+AUTHOR: Frédéric Santos
+
+Here are some possible answers to the exercises from the book /An introduction to programming in Emacs Lisp/ by Robert Chassell. 
+
+I'm still a beginner in Emacs Lisp and I post them here as I learn this language. Those programs may contain some errors, or may not be optimal.
+
+The comments and docstrings included in the Lisp code may be a poor soup of french and english.
