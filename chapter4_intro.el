@@ -1,22 +1,30 @@
-;;;;;;;;;;;;;;
-;;; CHAPITRE 4
-;;; § 4.6. Exercices.
-;;; Réécrire la fonction liée à M-> en plus simple :
+;;; chapter4_intro.el --- Solutions to the exercises of chapter 4
+;;; from "An Introduction to Programming in Emacs Lisp",
+;;; by R. Chassell.
+
+;;; Author: Frédéric Santos (2020)
+;;; URL: https://gitlab.com/f.santos/answers-chassell-lisp
+
+;;;;;;;;;;;;;;;;;;;;;
+;;; § 4.6. Exercises.
+;;; Write your own simplified-end-of-buffer function definition;
+;;; then test it to see whether it works.
 (defun simplified-end-of-buffer ()
   "Save mark and set point at the end of the buffer."
-  (interactive) ; pas d'argument car la fonction n'en a pas.
+  (interactive) ; no argument since the function does not have one
   (push-mark (point) t nil)
   (goto-char (point-max)))
 
-;;; Tester l'existence d'un buffer donné :
+;;; Use if and get-buffer to write a function that prints a
+;;; message telling you whether a buffer exists.
 (defun test-buffer-exists (namebuf)
   "Test whether a specified buffer NAMEBUF exists."
-  (interactive "B") ; cf. l'aide de "interactive"
+  (interactive "B") ; cf. help of "interactive"
   (if (equal (get-buffer namebuf) nil)
       (message "The buffer %s does not exist." namebuf)
     (message "The buffer %s exists." namebuf)))
 
-;;; Variante plus manuelle :
+;;; Another variant:
 (defun test-buffer-exists (namebuf)
   "Test whether a specified buffer NAMEBUF exists."
   (interactive (list (read-buffer
@@ -25,27 +33,30 @@
   (if (equal (get-buffer namebuf) nil)
       (message "The buffer %s does not exist." namebuf)
     (message "The buffer %s exists." namebuf)))
-;;; Attention :
-;;; l'aide de interactive dit : "If the argument is not a string, it
-;;; is evaluated to get a list of arguments to pass to the command."
-;;; Il faut donc ajouter le "list" dans "interactive", même pour
-;;; un seul argument.
-;;; En effet, évaluer ceci :
+;; [fr]
+;; Attention :
+;; l'aide de interactive dit : "If the argument is not a string, it
+;; is evaluated to get a list of arguments to pass to the command."
+;; Il faut donc ajouter le "list" dans "interactive", même pour
+;; un seul argument.
+;; En effet, évaluer ceci :
 (list "a" "b" "c")
-;;; On constate que c'est ce qu'on veut (créer une liste d'arguments).
-;;; Ne pas confondre avec :
+;; On constate que c'est ce qu'on veut (créer une liste d'arguments).
+;; Ne pas confondre avec :
 ("a" "b" "c")
-;;; qui provoque (évidemment) une erreur.
+;; qui provoque (évidemment) une erreur.
+;; [/fr]
 
-;;; Réécrire la fonction mark-whole-buffer
+;;; Other exercises:
+;;; Rewrote the function mark-whole-buffer
 (defun perso-mark-whole-buffer ()
   "Mark whole buffer, put point at beginning and mark at the end."
   (interactive)
-  (push-mark (point)) ; juste au cas où, pour pouvoir y revenir + tard
+  (push-mark (point))
   (push-mark (point-max) nil t)
   (goto-char (point-min)))
 
-;;; Plus compliqué : réécrire la fonction append-to-buffer
+;;; Rewrote the (much more complicated) function append-to-buffer
 (defun perso-append-to-buffer (buffer start end)
   "Append to specified BUFFER the text of the region between START
 and END.
@@ -60,13 +71,11 @@ It is inserted into that buffer before its point."
 	 (region-end)))
   ; Define & initialize the variables:
   (let
-      ;; begin VARLIST of let:
+      ;; VARLIST:
       ((oldbuf (current-buffer)))
-    ;; begin BODY of let expression:
+    ;; BODY (of let):
     (save-excursion
       (set-buffer buffer)
       (barf-if-buffer-read-only)
       (insert-buffer-substring oldbuf start end)
-      )
-    ) ; end of let
-  ) ; end of function
+      )))
