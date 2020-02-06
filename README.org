@@ -3,6 +3,6 @@
 
 Here are some possible answers to the exercises from the book /[[https://www.gnu.org/software/emacs/manual/pdf/eintr.pdf][An introduction to programming in Emacs Lisp]]/ by Robert Chassell. As a good training exercise, I also re-wrote some Lisp code given by R. Chassell through his book.
 
-I'm still a beginner in Emacs Lisp and I post them here as I learn this language. Those programs may contain some errors, or may not be optimal.
+The answers are split into separate files, one per chapter. I'm still a beginner in Emacs Lisp and I post them here as I learn this language. Those programs may contain some errors, or may not be optimal.
 
 The comments and docstrings included in the Lisp code may be a poor soup of french and english, and are given for my own reference.
