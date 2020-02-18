@@ -23,7 +23,7 @@
 ;;; § 11.1.3. A Loop with an Incrementing Counter
 (defun count-pebbles (n)
   "Count necessary pebbles to build a triangle of N floors"
-  (interactive "pNumber of floors: ")
+  (interactive "p")
   (let
       ;; VARLIST:
       ((counter 1)
@@ -42,7 +42,7 @@
 ;;; § 11.1.4. Loop with a Decrementing Counter
 (defun reverse-count-pebbles (n)
   "Count pebbles (still N floors) using a while loop and a decrementing counter."
-  (interactive "pNumber of floors: ")
+  (interactive "nNumber of floors: ")
   (let
       ;; VARLIST:
       ((counter n)
@@ -56,3 +56,67 @@
 ;; Test of the function:
 (reverse-count-pebbles 4)
 (reverse-count-pebbles 7)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 11.2. dolist and dotimes
+;;; Exercise: reverse a list using a while loop.
+(defun reverse-list-with-while (liste)
+  "Reverse the elements of LISTE using a while loop."
+  (let
+      ;; VARLIST:
+      ((result ()))
+    ;; BODY:
+    (while liste
+      (setq result (cons (car liste) result))
+      (setq liste (cdr liste)))
+    result))
+
+;; Test of the function:
+(setq animals '(loup renard poule))
+(reverse-list-with-while animals)
+
+;;; dolist:
+(defun reverse-list-with-dolist (liste)
+  "Reverse LISTE using dolist."
+  (let
+      ((result ()))
+    (dolist (element liste result)
+      (setq result (cons element result)))
+    result))
+
+;; Test of the function:
+(setq animals '(loup renard poule))
+(reverse-list-with-dolist animals)
+
+;;; dotimes:
+(defun decreasing-numbers (n)
+  "Display the N first integers in decreasing order.
+(N first integers range from 0 to N-1.)"
+  (interactive "nNumber of integers: ")
+  (let
+      ;; VARLIST:
+      ((result ()))
+    ;; BODY:
+    (dotimes (number n result)
+      (setq result
+	    (cons number result)))
+  (message "%s" result)))
+
+;; Test of the function:
+(decreasing-numbers 5)
+
+;;; Yet another version of count-pebbles:
+(defun count-pebbles-with-dotimes (n)
+  "Triangle with N floors using dotimes macro."
+  (interactive "nNumber of floors:")     ; optional
+  (let
+      ;; VARLIST:
+      ((result 0))
+    ;; BODY:
+    (dotimes (floor n result)
+      (setq result (+ result (1+ floor)))) ; (1+ floor) because it counts starting from 0, not 1
+    (message "There are %s pebbles in total." result)))
+
+;; Test of the function:
+(count-pebbles-with-dotimes 4)			; 10: ok!
+(count-pebbles-with-dotimes 7) 			; 28: ok!
