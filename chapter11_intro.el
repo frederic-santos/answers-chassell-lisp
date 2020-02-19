@@ -5,6 +5,35 @@
 ;;; Author: Frédéric Santos (2020)
 ;;; URL: https://gitlab.com/f.santos/answers-chassell-lisp
 
+;;;;;;;;;;;;;;;;;;;;;
+;;; § 11.4. Exercises
+;;; (i) Write a function similar to triangle (a.k.a., count-pebbles in
+;;; this file) in which each row has a value which is the square of the
+;;; row number. Use a while loop.
+(defun sum-of-squares (n)
+  "Computes the sum of the (squared) first N integers."
+  (interactive "nSum until n: ")
+  (let
+      ;; VARLIST:
+      ((somme 0)
+       (compteur 1))
+    ;; BODY:
+    (while (<= compteur n)
+      (setq somme (+ (* compteur compteur) somme))
+      (setq compteur (1+ compteur)))
+    somme))
+
+;; Test of the function:
+(sum-of-squares 4)			; 30: ok!
+
+;;; (ii) Write a function similar to triangle that multiplies instead of
+;;; adds the values.
+
+;;; (iii) Rewrite the two previous functions recursively.
+
+;;; (iv) Rewrite the same functions using `cond'.
+
+
 ;;; The following sections are given for my own reference.
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -120,3 +149,66 @@
 ;; Test of the function:
 (count-pebbles-with-dotimes 4)			; 10: ok!
 (count-pebbles-with-dotimes 7) 			; 28: ok!
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; § 11.3.3. Recursion with a list
+(setq animals '(loup poule lapin renard))
+(defun print-list-recursively (liste)
+  "Print elements of LISTE using recursive programming."
+  (when liste
+    (print (car liste))
+    (print-list-recursively (cdr liste))))
+(print-list-recursively animals)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; § 11.3.4. Recursion in place of a counter
+(defun count-pebbles-recursively (n)
+  "Count necessary pebbles to build a triangle with N floors.
+Uses recursive programming."
+  (interactive "nNumber of floors: ")
+  (if (equal n 1)
+      1
+    (+ n (count-pebbles-recursively (- n 1)))))
+
+;; Test of the function:
+(count-pebbles-recursively 4)		; 10: ok
+(count-pebbles-recursively 7)		; 28: ok
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; § 11.3.5. Recursion example using cond
+(defun count-pebbles-cond (n)
+  "Yet another version of count-pebbles."
+  (interactive "nNumber of floors: ")
+  (cond
+   ((<= n 0) 0)
+   ((= n 1) 1)
+   ((> n 1) (+ n (count-pebbles-cond (1- n))))))
+
+;; Test of the function:
+(count-pebbles-cond 4)			; 10: ok
+(count-pebbles-cond 7)			; 28: ok
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; § 11.3.6. Recursive patterns
+;;; Example of pattern "every":
+(defun square-each (numbers-list)
+  "Return a list made of the squared elements of NUMBERS-LIST."
+  (when numbers-list
+    (cons
+     (* (car numbers-list) (car numbers-list))
+      (square-each (cdr numbers-list)))))
+
+;; Test of the function:
+(setq x '(1 2 3 4 5))
+(square-each x)
+
+;;; Example of pattern "accumulate":
+(defun sum (x)
+  "Compute the sum of the numeric elements of X."
+  (if x
+      (+ (car x) (sum (cdr x)))
+    0))
+
+;; Test of the function:
+(setq x '(1 2 3 4 5))
+(sum x)
