@@ -7,7 +7,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;;; § 11.4. Exercises
-;;; (i) Write a function similar to triangle (a.k.a., count-pebbles in
+;;; (i) Write a function similar to triangle (a.k.a., `count-pebbles' in
 ;;; this file) in which each row has a value which is the square of the
 ;;; row number. Use a while loop.
 (defun sum-of-squares (n)
@@ -28,11 +28,60 @@
 
 ;;; (ii) Write a function similar to triangle that multiplies instead of
 ;;; adds the values.
+(defun prod-of-values (n)
+  "Computes the product of the first N integers."
+  (interactive "nProd until n: ")
+  (let
+      ;; VARLIST:
+      ((res 1)
+       (compteur 1))
+    ;; BODY:
+    (while (<= compteur n)
+      (setq res (* res compteur))
+      (setq compteur (1+ compteur)))
+    res))
+
+;; Test of the function:
+(prod-of-values 5)			; 120: ok!
 
 ;;; (iii) Rewrite the two previous functions recursively.
+(defun recursive-prod (n)
+  "Use recursion to compute the product of the first N integers."
+  (interactive "nProd until n: ")
+  (if (<= n 1)
+      1
+    (* n (recursive-prod (- n 1)))))
+
+;; Test of the function:
+(recursive-prod 5)			; 120: ok!
+
+(defun recursive-sum-of-squares (n)
+  "Computes the sum of the (squared) first N integers."
+  (interactive "nSum until n: ")
+  (if (= n 0)
+      0
+    (+ (* n n) (recursive-sum-of-squares (- n 1)))))
+
+(recursive-sum-of-squares 5)		; 55: ok!
 
 ;;; (iv) Rewrite the same functions using `cond'.
 
+;;; (v) [I add this one] Rewrite `prod-of-values' using `dotimes'.
+(defun prod-with-dotimes (n)
+  "Computes the product of the first N integers using `dotimes'."
+  (interactive "nProd until n: ")
+  (let
+      ;; VARLIST:
+      ((result 1))
+    ;; BODY:
+    ;; reminder: k ranges from 0 (inclusive) to n (exclusive)
+    ;; in a dotimes loop.
+    (dotimes (k n result)
+      (setq result (* result (1+ k))))
+    result))
+
+;; Test of the function:
+(prod-with-dotimes 5)			; 120: ok!
 
 ;;; The following sections are given for my own reference.
 
