@@ -65,6 +65,27 @@
 (recursive-sum-of-squares 5)		; 55: ok!
 
 ;;; (iv) Rewrite the same functions using `cond'.
+(defun sum-of-squares-with-cond (n)
+  "Compute the sum of the (squared) first N integers."
+  (cond
+   ((<= n 0) (message "n should be positive."))
+   ((= n 1) 1)
+   ((> n 1) (+ (* n n) (sum-of-squares-with-cond (- n 1))))))
+
+;; Test of the function:
+(sum-of-squares-with-cond -1)		; error message: ok!
+(sum-of-squares-with-cond 5)		; 55: ok!
+
+(defun prod-with-cond (n)
+  "Compute the product of the first N integers."
+  (cond
+   ((<= n 0) (message "n should be strictly positive."))
+   ((= n 1) 1)
+   ((> n 1) (* n (prod-with-cond (- n 1))))))
+
+;; Test of the function:
+(prod-with-cond -1)			; error message: ok!
+(prod-with-cond 5)			; 120: ok! 
 
 ;;; (v) [I add this one] Rewrite `prod-of-values' using `dotimes'.
 (defun prod-with-dotimes (n)
