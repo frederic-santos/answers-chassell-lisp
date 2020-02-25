@@ -1,4 +1,4 @@
-;;; chapter5_intro.el --- Solutions to the exercises of chapter 5
+;;; chapter05_intro.el --- Solutions to the exercises of chapter 5
 ;;; from "An Introduction to Programming in Emacs Lisp",
 ;;; by R. Chassell.
 
