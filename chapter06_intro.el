@@ -1,4 +1,4 @@
-;;; chapter6_intro.el --- Solutions to the exercises of chapter 6
+;;; chapter06_intro.el --- Solutions to the exercises of chapter 6
 ;;; from "An Introduction to Programming in Emacs Lisp",
 ;;; by R. Chassell.
 
@@ -27,6 +27,7 @@ they are in a narrowed part."
 
 ;;;;;;;;;;;;;;;;;;;;
 ;;; § 6.2. what-line
+;; [fr]
 ;; Dans un premier temps on pourrait se contenter de ceci :
 (defun simple-what-line ()
   "Simplified version of what-line.
@@ -48,6 +49,7 @@ the current line number of point in the (widened) buffer."
 ;; Explication : cf. l'aide de count-lines qui dit qu'il faut se situer
 ;; au début d'une ligne pour que ça marche. On est donc obligé d'ajouter
 ;; une instruction qui déplace le point au début d'une ligne.
+;; [/fr]
 
 (defun simple-what-line ()
   "Simplified version of what-line.
