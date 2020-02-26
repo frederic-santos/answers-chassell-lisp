@@ -1,4 +1,4 @@
-;;; chapter3_intro.el --- Solutions to the exercises of chapter 3
+;;; chapter03_intro.el --- Solutions to the exercises of chapter 3
 ;;; from "An Introduction to Programming in Emacs Lisp",
 ;;; by R. Chassell.
 
@@ -13,7 +13,7 @@
    (message "The double of %d is %d"
 	    arg (* 2 arg)))
 
-; Test: (double-value 5)
+;; Test: (double-value 5)
 
 ;; (ii) Make that function interactive:
 (defun double-value-interactive (arg)
