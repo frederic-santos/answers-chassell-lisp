@@ -1,4 +1,4 @@
-;;; chapter4_intro.el --- Solutions to the exercises of chapter 4
+;;; chapter04_intro.el --- Solutions to the exercises of chapter 4
 ;;; from "An Introduction to Programming in Emacs Lisp",
 ;;; by R. Chassell.
 
@@ -7,19 +7,19 @@
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;;; § 4.6. Exercises.
-;;; Write your own simplified-end-of-buffer function definition;
+;;; (i) Write your own simplified-end-of-buffer function definition;
 ;;; then test it to see whether it works.
 (defun simplified-end-of-buffer ()
   "Save mark and set point at the end of the buffer."
-  (interactive) ; no argument since the function does not have one
+  (interactive)	    ; no argument since the function does not have one
   (push-mark (point) t nil)
   (goto-char (point-max)))
 
-;;; Use if and get-buffer to write a function that prints a
+;;; (ii) Use if and get-buffer to write a function that prints a
 ;;; message telling you whether a buffer exists.
 (defun test-buffer-exists (namebuf)
   "Test whether a specified buffer NAMEBUF exists."
-  (interactive "B") ; cf. help of "interactive"
+  (interactive "BEnter a name: ")	; cf. help of "interactive"
   (if (equal (get-buffer namebuf) nil)
       (message "The buffer %s does not exist." namebuf)
     (message "The buffer %s exists." namebuf)))
@@ -47,6 +47,8 @@
 ;; qui provoque (évidemment) une erreur.
 ;; [/fr]
 
+;;; The following sections are given for my own reference.
+
 ;;; Other exercises:
 ;;; Rewrote the function mark-whole-buffer
 (defun perso-mark-whole-buffer ()
@@ -56,7 +58,7 @@
   (push-mark (point-max) nil t)
   (goto-char (point-min)))
 
-;;; Rewrote the (much more complicated) function append-to-buffer
+;;; Rewrote the (more complicated) function append-to-buffer
 (defun perso-append-to-buffer (buffer start end)
   "Append to specified BUFFER the text of the region between START
 and END.
@@ -77,5 +79,4 @@ It is inserted into that buffer before its point."
     (save-excursion
       (set-buffer buffer)
       (barf-if-buffer-read-only)
-      (insert-buffer-substring oldbuf start end)
-      )))
+      (insert-buffer-substring oldbuf start end))))
