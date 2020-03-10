@@ -104,3 +104,36 @@
 
 ;; Test the function:
 (lengths-list-file "./chapter13_intro.el") ; Yay, it works !
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; § 14.7. Count words in defuns in different files
+(defun lengths-list-many-files (list-of-files)
+  "Return a list of lengths of defuns in LIST-OF-FILES."
+  (let
+      ;; Initialize the list which will be returned:
+      ((lengths-list ()))
+    ;; Explore each file of the list and count the words in its defuns:
+    (while list-of-files		; while it's non-empty
+      (setq lengths-list
+	    (append lengths-list
+	     (lengths-list-file (car list-of-files))))
+      ;; Make list shorter (so that the while loop can stop):
+      (setq list-of-files (cdr list-of-files)))
+    ;; Return result:
+    lengths-list))
+
+;; Test of the function:
+(lengths-list-file "chapter12_intro.el")
+(lengths-list-file "chapter13_intro.el")
+(lengths-list-many-files '("chapter12_intro.el" "chapter13_intro.el"))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; § 14.8. Recursively count words in different files
+(defun recursive-lengths-list-many-files (list-of-files)
+  "Return a list of lengths of defuns in LIST-OF-FILES."
+  (if list-of-files			; if not empty
+      (append				; add (to one single list)
+       (lengths-list-file (car list-of-files))
+       (recursive-lengths-list-many-files (cdr list-of-files)))))
+
+(recursive-lengths-list-many-files '("chapter12_intro.el" "chapter13_intro.el"))
