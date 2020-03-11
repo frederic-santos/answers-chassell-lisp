@@ -137,3 +137,34 @@
        (recursive-lengths-list-many-files (cdr list-of-files)))))
 
 (recursive-lengths-list-many-files '("chapter12_intro.el" "chapter13_intro.el"))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; § 14.9.2. Making a list of files
+(defun files-in-below-directory (directory)
+  "List the .el files in DIRECTORY and its sub-directories."
+  (interactive "DChoose directory: ")
+  (let
+      ;; Initialize variables:
+      (result				; bound to nil
+       (files (directory-files-and-attributes directory t)))
+    ;; Explore list of files:
+    (while files			; while not empty
+      (cond
+       ;; If it is "." or "..", ignore it:
+       ((equal "."
+	       (substring (car (car files)) -1))
+	())
+       ;; Otherwise, if the file ends by ".el", add it to the list:
+       ((equal ".el" (substring (car (car files)) -3))
+	(setq result (cons (car (car files)) result)))
+       ;; Otherwise, if it is a folder, explore it:
+       ((eq t (car (cdr (car files))))
+	(setq result
+	      (append
+	       (files-in-below-directory
+		(car (car files)))
+	       result))))
+      ;; Shorten the list:
+      (setq files (cdr files)))
+    ;; Return result:
+    result))
