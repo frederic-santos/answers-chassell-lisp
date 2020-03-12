@@ -150,7 +150,7 @@
     ;; Explore list of files:
     (while files			; while not empty
       (cond
-       ;; If it is "." or "..", ignore it:
+       ;; If it is "." or ".." (i.e., ends by "."), ignore it:
        ((equal "."
 	       (substring (car (car files)) -1))
 	())
@@ -168,3 +168,55 @@
       (setq files (cdr files)))
     ;; Return result:
     result))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; § 14.9.3 Counting function definitions
+(defvar top-of-ranges
+  (number-sequence 10 200 10)
+  "List specifiying ranges for `defuns-per-range'.")
+
+(defun defuns-per-range (sorted-lengths top-of-ranges)
+  "SORTED-LENGTHS defuns in each TOP-OF-RANGES range."
+  (let ((top-of-range (car top-of-ranges)) ; upper bound
+	(number-within-range 0)
+	(defuns-per-range-list ()))
+
+    ;; Outer loop: explore ranges (upper bounds)
+    (while top-of-ranges 		; while not empty
+
+      ;; Inner loop: explore defun lengths
+      (while (and
+	      (car sorted-lengths) 	; not nil, i.e. list not empty
+	      (< (car sorted-lengths) top-of-range))
+
+	;; Count number of defuns within current range
+	(setq number-within-range (1+ number-within-range))
+	(setq sorted-lengths (cdr sorted-lengths)))
+
+	;; Exit inner loop
+	(setq defuns-per-range-list
+	      (cons number-within-range defuns-per-range-list))
+	(setq number-within-range 0)	; reset count to 0
+
+	;; Move to next range
+	(setq top-of-ranges (cdr top-of-ranges))
+	(setq top-of-range (car top-of-ranges)))
+
+    ;; Exit outer loop.
+    ;; Count number of defuns > largest top-of-range value
+    (setq defuns-per-range-list
+	  (cons
+	   (length sorted-lengths)
+	   defuns-per-range-list))
+
+    ;; Return the result (sorted)
+    (nreverse defuns-per-range-list)))
+
+;;; Test of the function:
+(setq sorted-lengths
+      (sort
+       (lengths-list-many-files
+	(files-in-below-directory
+	 "~/PACEA_MyCore/Autoformation/Exercism/emacs-lisp/"))
+       '<))
+(defuns-per-range sorted-lengths top-of-ranges)
