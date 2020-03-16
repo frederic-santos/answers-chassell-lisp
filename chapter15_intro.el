@@ -13,9 +13,9 @@
                                  *
 ;;; This seems to be convenient.
 ;;; Tip: we can do M-: and then the previous sexp, to get that:
-*
-*
-*
+;;; *
+;;; *
+;;; *
 
 ;;; (ii) The `max' function:
 (max 1 5 6 2)				; return max of its arguments
@@ -52,3 +52,24 @@ In particular, COLUMN-HEIGHT of them will be graph-symbols."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; § 15.1. The `graph-body-print' function
+(defun graph-body-print (numbers-list)
+  "Print a bar graph of the NUMBERS-LIST.
+The numbers-list consists of the Y-axis values."
+  (let ((height (apply 'max numbers-list))
+	(symbol-width (length graph-blank))
+	(from-position nil))
+    (while numbers-list			; while not empty
+      (setq from-position (point))
+      (insert-rectangle (column-of-graph height (car numbers-list)))
+      (goto-char from-position)
+      (forward-char symbol-width)
+      ;; Draw graph column by column
+      (sit-for 1)
+      ;; Shorten the list
+      (setq numbers-list (cdr numbers-list)))
+    ;; Place point for the X-axis labels
+    (forward-line height)
+    (insert "\n")))
+
+;; Test of the function:
+(graph-body-print '(1 2 3 4 6 4 3 5 7 6 5 2 3))
